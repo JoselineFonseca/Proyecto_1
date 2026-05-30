@@ -8,5 +8,6 @@
  * @author Geirel
  */
 public enum TipoPersona {
-    
+    ESTUDIANTE,
+    DOCENTE
 }

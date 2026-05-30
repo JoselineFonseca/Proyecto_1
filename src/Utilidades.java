@@ -9,4 +9,10 @@
  */
 public class Utilidades {
     
+    //Mensaje de bienvenida
+    public static void mostrarBienvenida () {
+        System.out.println("----------------------------");
+        System.out.println("SISTEMA DE GESTION ACADEMICA");
+        System.out.println("----------------------------");
+    }
 }

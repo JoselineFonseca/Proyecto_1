@@ -9,7 +9,7 @@
  */
 public class Direccion {
     
-    //Variables
+    //Variables privadas
     private String provincia;
     private String cuidad;
 
