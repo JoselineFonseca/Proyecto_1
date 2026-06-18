@@ -9,6 +9,6 @@ package Presentacion;
  */
 
 
-public class EstudiantePanel extends JPanel {
+public class EstudiantePanel  {
     
 }
