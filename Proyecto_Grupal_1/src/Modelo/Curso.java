@@ -19,6 +19,9 @@ public class Curso {
     private boolean activo;
     
     //Constructor
+    public Curso(){
+        
+    }
     public Curso(int id, String codigo, String nombre, int creditos, String profesor, boolean activo) {
         this.id = id;
         this.codigo = codigo;
