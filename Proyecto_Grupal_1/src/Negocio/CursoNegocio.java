@@ -23,6 +23,10 @@ public class CursoNegocio {
     public CursoNegocio() {
         repo = new CursoRepo();
     }
+    //Listar todos los cursos
+    public List<Curso> listar() {
+        return repo.listar();
+    }
     
     //Registrar un nuevo curso
     public void agregar(Curso curso)

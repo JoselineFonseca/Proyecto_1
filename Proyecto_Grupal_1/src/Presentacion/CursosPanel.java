@@ -13,6 +13,8 @@ import Negocio.CursoNegocio;
 import Excepciones.DatoInvalidoException;
 import Excepciones.RegistrosDuplicadosException;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.util.List;
 public class CursosPanel extends javax.swing.JPanel {
 
     /**
@@ -21,6 +23,35 @@ public class CursosPanel extends javax.swing.JPanel {
     private CursoNegocio negocio = new CursoNegocio();
     public CursosPanel() {
         initComponents();
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("Código");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Créditos");
+        modelo.addColumn("Profesor");
+        modelo.addColumn("Activo");
+    tblCursos.setModel(modelo);
+    }
+    private void limpiarCampos() {
+    txtCodigo.setText("");
+    txtNombre.setText("");
+    txtCreditos.setText("");
+    txtProfesor.setText("");
+    chkActivo.setSelected(false);
+    }
+    
+    private void cargarTabla() {
+    DefaultTableModel modelo = (DefaultTableModel) tblCursos.getModel();
+    modelo.setRowCount(0);
+    List<Curso> cursos = negocio.listar();
+    for (Curso curso : cursos) {
+        modelo.addRow(new Object[]{
+            curso.getCodigo(),
+            curso.getNombre(),
+            curso.getCreditos(),
+            curso.getProfesor(),
+            curso.isActivo()
+        });
+    }
     }
 
     /**
@@ -48,7 +79,7 @@ public class CursosPanel extends javax.swing.JPanel {
         btnOrdenar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblCursos = new javax.swing.JTable();
 
         jLabel1.setText("Código:");
 
@@ -66,16 +97,21 @@ public class CursosPanel extends javax.swing.JPanel {
         btnGuardar.addActionListener(this::btnGuardarActionPerformed);
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(this::btnEditarActionPerformed);
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(this::btnEliminarActionPerformed);
 
         btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(this::btnBuscarActionPerformed);
 
         btnOrdenar.setText("Ordenar");
+        btnOrdenar.addActionListener(this::btnOrdenarActionPerformed);
 
         btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblCursos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -86,7 +122,7 @@ public class CursosPanel extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane3.setViewportView(jTable1);
+        jScrollPane3.setViewportView(tblCursos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -98,13 +134,13 @@ public class CursosPanel extends javax.swing.JPanel {
                     .addComponent(chkActivo)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnOrdenar)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnLimpiar))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnEditar)
-                            .addComponent(btnGuardar))
-                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnGuardar)
+                            .addComponent(btnEditar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnEliminar)
                             .addComponent(btnBuscar)))
@@ -153,10 +189,10 @@ public class CursosPanel extends javax.swing.JPanel {
                             .addComponent(btnEliminar))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnEditar)
-                            .addComponent(btnBuscar))
+                            .addComponent(btnBuscar)
+                            .addComponent(btnEditar))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnLimpiar)
                             .addComponent(btnOrdenar))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -169,8 +205,101 @@ public class CursosPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        
+        try {
+        Curso curso = new Curso();
+        curso.setCodigo(txtCodigo.getText());
+        curso.setNombre(txtNombre.getText());
+        curso.setCreditos(Integer.parseInt(txtCreditos.getText()));
+        curso.setProfesor(txtProfesor.getText());
+        curso.setActivo(chkActivo.isSelected());
+        negocio.agregar(curso);
+        cargarTabla();
+        limpiarCampos();
+        JOptionPane.showMessageDialog(this,
+                "Curso registrado correctamente");
+    } catch (DatoInvalidoException |
+             RegistrosDuplicadosException e) {
+        JOptionPane.showMessageDialog(this,
+                e.getMessage());
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this,
+                "Los créditos deben ser numéricos");
+    }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        limpiarCampos();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+         String codigo = txtCodigo.getText();
+    Curso curso = negocio.buscar(codigo);
+    if (curso != null) {
+        txtNombre.setText(curso.getNombre());
+        txtCreditos.setText(
+                String.valueOf(curso.getCreditos()));
+        txtProfesor.setText(curso.getProfesor());
+        chkActivo.setSelected(curso.isActivo());
+    } else {
+        JOptionPane.showMessageDialog(this,
+                "Curso no encontrado");
+    }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+         String codigo = txtCodigo.getText();
+        boolean eliminado = negocio.eliminar(codigo);
+        if (eliminado) {
+            cargarTabla();      // Actualiza la JTable
+            limpiarCampos();    // Limpia los campos
+            JOptionPane.showMessageDialog(this,
+                    "Curso eliminado correctamente");
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "No se encontró el curso");
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        try {
+                if (txtProfesor.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                "El nombre del profesor es obligatorio");
+            return;
+        }
+        Curso curso = new Curso();
+        curso.setCodigo(txtCodigo.getText());
+        curso.setNombre(txtNombre.getText());
+        curso.setCreditos(
+                Integer.parseInt(txtCreditos.getText()));
+        curso.setProfesor(txtProfesor.getText());
+        curso.setActivo(chkActivo.isSelected());
+        boolean editado = negocio.editar(curso);
+        if (editado) {
+            cargarTabla();
+            limpiarCampos();
+            JOptionPane.showMessageDialog(this,
+                    "Curso actualizado correctamente");
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "No se encontró el curso");
+        }
+    } catch (DatoInvalidoException e) {
+
+        JOptionPane.showMessageDialog(this,
+                e.getMessage());
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this,
+                "Los créditos deben ser numéricos");
+    }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnOrdenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenarActionPerformed
+        negocio.ordenarPorNombre();
+
+    JOptionPane.showMessageDialog(this,
+            "Cursos ordenados por nombre");
+    }//GEN-LAST:event_btnOrdenarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -186,7 +315,7 @@ public class CursosPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblCursos;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtCreditos;
     private javax.swing.JTextField txtNombre;

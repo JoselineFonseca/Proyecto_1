@@ -32,7 +32,7 @@ public class EstudiantesPanel extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
 
-        jLabel1.setText("jLabel1");
+        jLabel1.setText("ID");
 
         jLabel2.setText("jLabel2");
 
