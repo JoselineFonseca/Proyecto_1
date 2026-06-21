@@ -7,10 +7,9 @@ package Negocio;
 import Modelo.Matricula;
 import Repositorio.MatriculaRepo;
 import Excepciones.MatriculaInvalidaException;
+import java.util.List;
+import java.util.Stack;
 
-/*
- Reglas de negocio de matrícula
-*/
 public class MatriculaNegocio {
 
     private MatriculaRepo repo = new MatriculaRepo();
@@ -18,14 +17,12 @@ public class MatriculaNegocio {
     public void registrar(Matricula m)
             throws MatriculaInvalidaException {
 
-        //verificar estudiante activo
         if (!m.getEstudiante().getActivo()) {
 
             throw new MatriculaInvalidaException(
                     "El estudiante está inactivo");
         }
 
-        //verificar curso activo
         if (!m.getCurso().isActivo()) {
 
             throw new MatriculaInvalidaException(
@@ -41,5 +38,17 @@ public class MatriculaNegocio {
             throw new MatriculaInvalidaException(
                     "El estudiante ya está matriculado en este curso");
         }
+    }
+
+    public List<Matricula> listar() {
+        return repo.listar();
+    }
+
+    public void eliminar(Matricula m) {
+        repo.eliminar(m);
+    }
+
+    public Stack<String> historial() {
+        return repo.obtenerHistorial();
     }
 }

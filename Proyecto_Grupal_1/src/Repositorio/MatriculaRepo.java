@@ -11,8 +11,10 @@ public class MatriculaRepo {
 
     private List<Matricula> matriculas = new ArrayList<>();
 
-    //control de matrículas repetidas
     private Set<String> duplicados = new HashSet<>();
+
+    //historial requerido por el proyecto
+    private Stack<String> historial = new Stack<>();
 
     public void agregar(Matricula m) throws Exception {
 
@@ -26,7 +28,15 @@ public class MatriculaRepo {
         }
 
         matriculas.add(m);
+
         duplicados.add(clave);
+
+        historial.push(
+                "Matrícula registrada: "
+                + m.getEstudiante().getnombre()
+                + " -> "
+                + m.getCurso().getNombre()
+        );
     }
 
     public List<Matricula> listar() {
@@ -43,5 +53,16 @@ public class MatriculaRepo {
         duplicados.remove(clave);
 
         matriculas.remove(m);
+
+        historial.push(
+                "Matrícula eliminada: "
+                + m.getEstudiante().getnombre()
+                + " -> "
+                + m.getCurso().getNombre()
+        );
+    }
+
+    public Stack<String> obtenerHistorial() {
+        return historial;
     }
 }
