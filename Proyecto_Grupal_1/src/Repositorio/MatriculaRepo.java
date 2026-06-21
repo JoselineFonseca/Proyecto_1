@@ -5,28 +5,43 @@
 package Repositorio;
 
 import Modelo.Matricula;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-/*
- Repositorio encargado de guardar las matrículas
-*/
 public class MatriculaRepo {
 
     private List<Matricula> matriculas = new ArrayList<>();
 
-    //guardar matrícula
-    public void agregar(Matricula m) {
+    //control de matrículas repetidas
+    private Set<String> duplicados = new HashSet<>();
+
+    public void agregar(Matricula m) throws Exception {
+
+        String clave =
+                m.getEstudiante().getCorreo()
+                + "-"
+                + m.getCurso().getCodigo();
+
+        if (duplicados.contains(clave)) {
+            throw new Exception("Duplicado");
+        }
+
         matriculas.add(m);
+        duplicados.add(clave);
     }
 
-    //listar matrículas
     public List<Matricula> listar() {
         return matriculas;
     }
 
-    //eliminar matrícula
     public void eliminar(Matricula m) {
+
+        String clave =
+                m.getEstudiante().getCorreo()
+                + "-"
+                + m.getCurso().getCodigo();
+
+        duplicados.remove(clave);
+
         matriculas.remove(m);
     }
 }
