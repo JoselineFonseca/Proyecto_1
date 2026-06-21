@@ -4,51 +4,41 @@
  */
 package Modelo;
 
-/*
- Modelo que representa una matrícula
-*/
 public class Matricula {
 
     private int id;
     private Estudiante estudiante;
     private Curso curso;
-    private String fechaMatricula;
+    private String fecha;
     private String estado;
 
-    public Matricula(int id,
-            Estudiante estudiante,
-            Curso curso,
-            String fechaMatricula,
-            String estado) {
+    public Matricula() {}
 
+    public Matricula(int id, Estudiante estudiante, Curso curso, String fecha, String estado) {
         this.id = id;
         this.estudiante = estudiante;
         this.curso = curso;
-        this.fechaMatricula = fechaMatricula;
+        this.fecha = fecha;
         this.estado = estado;
     }
 
-    public int getId() {
-        return id;
-    }
+    public int getId() { return id; }
 
-    public Estudiante getEstudiante() {
-        return estudiante;
-    }
+    public Estudiante getEstudiante() { return estudiante; }
 
-    public Curso getCurso() {
-        return curso;
-    }
+    public Curso getCurso() { return curso; }
 
-    public String getFechaMatricula() {
-        return fechaMatricula;
-    }
+    public String getFecha() { return fecha; }
 
-    public String getEstado() {
-        return estado;
-    }
+    public String getEstado() { return estado; }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
+    public void setId(int id) { this.id = id; }
+
+    public void setEstudiante(Estudiante estudiante) { this.estudiante = estudiante; }
+
+    public void setCurso(Curso curso) { this.curso = curso; }
+
+    public void setFecha(String fecha) { this.fecha = fecha; }
+
+    public void setEstado(String estado) { this.estado = estado; }
 }

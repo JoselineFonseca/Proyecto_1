@@ -5,64 +5,41 @@
 package Repositorio;
 
 import Modelo.Matricula;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MatriculaRepo {
 
     private List<Matricula> matriculas = new ArrayList<>();
 
-    private Set<String> duplicados = new HashSet<>();
-
-    //historial requerido por el proyecto
-    private Stack<String> historial = new Stack<>();
-
-    public void agregar(Matricula m) throws Exception {
-
-        String clave =
-                m.getEstudiante().getCorreo()
-                + "-"
-                + m.getCurso().getCodigo();
-
-        if (duplicados.contains(clave)) {
-            throw new Exception("Duplicado");
-        }
-
+    public void agregar(Matricula m) {
         matriculas.add(m);
-
-        duplicados.add(clave);
-
-        historial.push(
-                "Matrícula registrada: "
-                + m.getEstudiante().getnombre()
-                + " -> "
-                + m.getCurso().getNombre()
-        );
     }
 
     public List<Matricula> listar() {
         return matriculas;
     }
 
-    public void eliminar(Matricula m) {
-
-        String clave =
-                m.getEstudiante().getCorreo()
-                + "-"
-                + m.getCurso().getCodigo();
-
-        duplicados.remove(clave);
-
-        matriculas.remove(m);
-
-        historial.push(
-                "Matrícula eliminada: "
-                + m.getEstudiante().getnombre()
-                + " -> "
-                + m.getCurso().getNombre()
-        );
+    public boolean eliminar(int id) {
+        return matriculas.removeIf(m -> m.getId() == id);
     }
 
-    public Stack<String> obtenerHistorial() {
-        return historial;
+    public Matricula buscar(int id) {
+        for (Matricula m : matriculas) {
+            if (m.getId() == id) {
+                return m;
+            }
+        }
+        return null;
+    }
+
+    public boolean existeDuplicado(int estudianteId, int cursoId) {
+        for (Matricula m : matriculas) {
+            if (m.getEstudiante().getId() == estudianteId &&
+                m.getCurso().getId() == cursoId) {
+                return true;
+            }
+        }
+        return false;
     }
 }
