@@ -7,6 +7,7 @@ package Negocio;
 import Modelo.Matricula;
 import Repositorio.MatriculaRepo;
 import Excepciones.MatriculaInvalidaException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -50,5 +51,43 @@ public class MatriculaNegocio {
 
     public Stack<String> historial() {
         return repo.obtenerHistorial();
+    }
+
+    //buscar por estudiante
+    public List<Matricula> buscarPorEstudiante(String nombre) {
+
+        List<Matricula> resultado = new ArrayList<>();
+
+        for (Matricula m : repo.listar()) {
+
+            if (m.getEstudiante()
+                    .getnombre()
+                    .toLowerCase()
+                    .contains(nombre.toLowerCase())) {
+
+                resultado.add(m);
+            }
+        }
+
+        return resultado;
+    }
+
+    //buscar por curso
+    public List<Matricula> buscarPorCurso(String curso) {
+
+        List<Matricula> resultado = new ArrayList<>();
+
+        for (Matricula m : repo.listar()) {
+
+            if (m.getCurso()
+                    .getNombre()
+                    .toLowerCase()
+                    .contains(curso.toLowerCase())) {
+
+                resultado.add(m);
+            }
+        }
+
+        return resultado;
     }
 }
