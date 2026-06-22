@@ -4,12 +4,15 @@
  */
 package Excepciones;
 
-/*
- Excepción personalizada para errores de matrícula
-*/
-public class MatriculaInvalidaException extends Exception {
-
-    public MatriculaInvalidaException(String mensaje) {
+/**
+ *
+ * @author fiore
+ */
+public class NotaInvalidaException extends Exception {
+    
+    public NotaInvalidaException (String mensaje){
         super(mensaje);
     }
 }
+
+

@@ -50,6 +50,6 @@ public class Estudiante {
     public void setActivo(boolean activo){this.activo =activo;}
     public void setCorreo(String correo){this.correo =correo;}
     public void setTelefono(String telefono){this.telefono =telefono;}
-    public void setObservaciones(String nombre){this.observaciones =observaciones;}
+    public void setObservaciones(String observaciones){this.observaciones =observaciones;}
 
 }
