@@ -20,7 +20,7 @@ public class CursosPanel extends javax.swing.JPanel {
     /**
      * Creates new form CursosPanel
      */
-    private CursoNegocio negocio = new CursoNegocio();
+    private CursoNegocio cursoNegocio = new CursoNegocio();
     public CursosPanel() {
         initComponents();
         DefaultTableModel modelo = new DefaultTableModel();
@@ -296,7 +296,8 @@ public class CursosPanel extends javax.swing.JPanel {
 
     private void btnOrdenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrdenarActionPerformed
         negocio.ordenarPorNombre();
-
+        
+        cargarTabla();
     JOptionPane.showMessageDialog(this,
             "Cursos ordenados por nombre");
     }//GEN-LAST:event_btnOrdenarActionPerformed
