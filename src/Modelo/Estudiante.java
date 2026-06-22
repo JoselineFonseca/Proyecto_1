@@ -38,7 +38,7 @@ public class Estudiante {
     public boolean getActivo(){return activo;}
     public String getGenero (){return genero;}
     public String getCorreo (){return correo;}
-    public String getnombre (){return nombre;}
+    public String getNombre (){return nombre;}
     public String getCarrera (){return carrera;}
     public String getTelefono (){return telefono;}
     public String getObservaciones (){return observaciones;}

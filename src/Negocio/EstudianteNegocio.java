@@ -17,7 +17,7 @@ public class EstudianteNegocio {
     
     //metodo para registrar estudiantes con validaciones
         public void registrar(Estudiante e) throws DatoInvalidoException,RegistrosDuplicadosException{ 
-            if (e.getnombre() ==null || e.getnombre().length()<3){
+            if (e.getNombre() ==null || e.getNombre().length()<3){
                 throw new DatoInvalidoException ("El nombre debe tener al menos 3 caracteres ");
             }
             if (e.getEdad()<=0){
